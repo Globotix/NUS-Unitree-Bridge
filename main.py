@@ -4,6 +4,8 @@ import sys, os, signal
 import math
 import threading
 
+import yaml #to parse yaml files
+
 import rospy
 import geometry_msgs.msg, std_msgs.msg
 # import actionlib
@@ -15,14 +17,17 @@ from mqtt_handler import *
 #DEFAULT MQTT CONSTANTS
 ##################################################
 
-MQTT_BROKER_ADDRESS = str("0.0.0.0") 
-MQTT_BROKER_PORT = 1883
-MQTT_USER = "guest"
-MQTT_PASSWORD = "guest"
+mqtt_broker_address = ["0.0.0.0"] 
+mqtt_broker_port = [1883] 
+mqtt_user = ["guest"] 
+mqtt_password = ["guest"] 
 
-MQTT_NAVIGATION_TOPIC = "nus5gdt/robots/unitree/navigate"
-MQTT_ROBOT_STATE_TOPIC = "nus5gdt/robots/unitree/robot_state"
+mqtt_navigation_topic = ["nus5gdt/robots/unitree/navigate"] 
+mqtt_robot_state_topic = ["nus5gdt/robots/unitree/robot_state"] 
 
+ros_start_navigation_topic = ["robot_goal"]
+ros_cancel_navigation_topic = ["cancel_goal"]
+ros_position_topic = ["robot_position"]
 
 def parseConfig(config_dir):
     """
@@ -33,28 +38,23 @@ def parseConfig(config_dir):
     with open(config_dir) as f:
         dataMap = yaml.safe_load(f) # use safe_load instead of load
 
-        #For each robot state
-        for mode in dataMap:
-            node_list = []
-            #For each node in robot state
-            for node in dataMap[mode]:
-                node_list.append(node["name"])
+        mqtt_broker_address[0] = dataMap["mqtt_broker_address"]
+        mqtt_broker_port[0] = dataMap["mqtt_broker_port"]
+        mqtt_user[0] = dataMap["mqtt_user"]
+        mqtt_password[0] = dataMap["mqtt_password"]
 
-            self.state_dictionary[mode] = node_list
+        mqtt_navigation_topic[0] = dataMap["mqtt_navigation_topic"]
+        mqtt_robot_state_topic[0] = dataMap["mqtt_robot_state_topic"]
 
-parseConfig("./")
+        ros_start_navigation_topic[0] = dataMap["ros_start_navigation_topic"]
+        ros_cancel_navigation_topic[0] = dataMap["ros_cancel_navigation_topic"]
+        ros_position_topic[0] = dataMap["ros_position_topic"]
 
-#Assign constants
-mqtt_broker_address = MQTT_BROKER_ADDRESS
-mqtt_broker_port = MQTT_BROKER_PORT
-mqtt_user = MQTT_USER
-mqtt_password = MQTT_PASSWORD
+parseConfig("./config.yaml")
 
-mqtt_navigation_topic = MQTT_NAVIGATION_TOPIC
-mqtt_robot_state_topic = MQTT_ROBOT_STATE_TOPIC
-
-goal_pub = rospy.Publisher('robot_goal', geometry_msgs.msg.PoseStamped, queue_size=10)
-empty_pub = rospy.Publisher('cancel_goal', std_msgs.msg.Empty, queue_size=10)
+#ROS Publishers
+goal_pub = rospy.Publisher(ros_start_navigation_topic[0], geometry_msgs.msg.PoseStamped, queue_size=10)
+empty_pub = rospy.Publisher(ros_cancel_navigation_topic[0], std_msgs.msg.Empty, queue_size=10)
 
 mqtt_handler = MQTTHandler()
 #add ros publishers to mqtt_handler
@@ -105,9 +105,9 @@ class MQTTThread(threading.Thread):
     def run(self):
         print("Started MQTT Thread")
 
-        mqtt_handler.initMQTTParams(mqtt_navigation_topic, mqtt_robot_state_topic)
+        mqtt_handler.initMQTTParams(mqtt_navigation_topic[0], mqtt_robot_state_topic[0])
 
-        mqtt_handler.initMQTTConnection(mqtt_broker_address, mqtt_broker_port, mqtt_user=mqtt_user, mqtt_password=mqtt_password)
+        mqtt_handler.initMQTTConnection(mqtt_broker_address[0], mqtt_broker_port[0], mqtt_user=mqtt_user[0], mqtt_password=mqtt_password[0])
         mqtt_handler.startLoop()
 
 
@@ -122,7 +122,7 @@ def main():
     # https://hotblackrobotics.github.io/en/blog/2018/01/29/action-client-py/
 
     #ROS Subscribers
-    rospy.Subscriber("robot_position", geometry_msgs.msg.PoseStamped, robotPositionCallback)
+    rospy.Subscriber(ros_position_topic[0], geometry_msgs.msg.PoseStamped, robotPositionCallback)
     
     rospy.spin()
 
