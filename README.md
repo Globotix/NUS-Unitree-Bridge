@@ -7,7 +7,6 @@ This node should convert MQTT messages from the NUS Digital Twin model to ROS me
 
 RabbitMQ: Refer to https://www.rabbitmq.com/download.html
 
-
 #Install the following python packages
 ```
 # paho-mqtt
@@ -57,5 +56,10 @@ mosquitto_sub -v -h localhost -t \# -u guest -P guest -d
 - Publish on topic "mp/navigate"
 ```
 mosquitto_pub -h localhost -t mp/navigate -u guest -P guest -m {\"hey\":\"HO\"} 
+
+mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"start_movement\", \"pos_x\":1.0 , \"pos_y\":2.0 , \"pos_theta\":3.0 }"
+
+mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"cancel_movement\"}"
+
 ```
 

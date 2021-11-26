@@ -72,16 +72,19 @@ class MQTTHandler():
 
         if (msg.topic == self.navigation_topic):
             #Convert to ROS Message and publish to ROS
-            print("MQTT: Navigation goal received!")
+            print("MQTT: Navigation Command received!")
 
             msg_dict = json.loads(msg.payload)
 
             if msg_dict["action"] == "start_movement":
+                print("MQTT: Start movement!")
+
                 goal_msg = self.makeROSGoal(msg.payload)
 
                 self.goal_pub.publish(goal_msg)
 
             elif msg_dict["action"] == "cancel_movement":
+                print("MQTT: Cancel movement!")
                 empty_msg = std_msgs.msg.Empty()
 
                 self.empty_pub.publish(empty_msg)
