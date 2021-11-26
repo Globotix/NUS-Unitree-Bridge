@@ -1,0 +1,7 @@
+mqtt_broker_address: "0.0.0.0"
+mqtt_broker_port: 1883
+mqtt_user: ""
+mqtt_password: ""
+
+mqtt_navigation_topic: "nus5gdt/robots/unitree/navigate"
+mqtt_robot_state_topic: "nus5gdt/robots/unitree/robot_state"
