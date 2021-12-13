@@ -63,3 +63,17 @@ mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P gues
 
 ```
 
+# Network settings for connecting to Unitree robot
+
+1. To ~/.bashrc, add the following
+```
+export ROS_MASTER_URI=http://nx:11311
+export ROS_HOSTNAME=192.168.8.149
+```
+
+2. To /etc/hosts, add the following
+```
+192.168.8.204 nx
+127.0.0.1 nx
+```
+
