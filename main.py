@@ -62,7 +62,7 @@ mqtt_handler.initROSInterface(goal_pub, empty_pub)
 
 def robotPositionCallback(data):
 
-    rospy.loginfo("Robot callback received!")
+    rospy.loginfo_throttle(1.0, "Robot callback received!")
 
     #Read from ROS msg
     frame_id = data.header.frame_id
