@@ -91,7 +91,7 @@ def robotPositionCallback(data):
     robot_state_msg_json = json.dumps(robot_state_msg_dict)
 
     #Publish MQTT message
-    mqtt_handler.pubMQTT(robot_state_msg_json, mqtt_robot_state_topic)
+    mqtt_handler.pubMQTT(robot_state_msg_json, mqtt_robot_state_topic[0])
 
     return 
 

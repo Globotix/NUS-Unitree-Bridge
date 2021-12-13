@@ -8,7 +8,7 @@ import rospy
 
 class MQTTHandler():
     def __init__(self):
-        self.client = mqtt.Client("mqtt_test") #create new instance
+        self.client = mqtt.Client("mqtt_test95") #create new instance
 
     def initMQTTParams(self, navigation_topic, robot_state_topic):
         self.navigation_topic = navigation_topic
