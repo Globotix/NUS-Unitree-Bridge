@@ -52,6 +52,7 @@ class MQTTHandler():
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0: 
             print("Connected to MQTT broker (RC: %s)" % rc)
+            self.client.subscribe([(self.navigation_topic, 0)])
         else:
             print("Connection to MQTT broker failed (RC: %s)" % rc)
 
