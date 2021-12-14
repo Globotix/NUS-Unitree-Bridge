@@ -127,22 +127,32 @@ class MQTTHandler():
         #Create ROS Message
         goal_msg = geometry_msgs.msg.PoseStamped()
 
-        goal_msg.header.frame_id = "map"
-        goal_msg.header.stamp = rospy.Time.now()
+        if (action == "start_movement"):
+            goal_msg.header.frame_id = "map"
+            goal_msg.header.stamp = rospy.Time.now()
 
-        goal_msg.pose.position.x = x
-        goal_msg.pose.position.y = y
-        goal_msg.pose.position.z = 0
+            goal_msg.pose.position.x = x
+            goal_msg.pose.position.y = y
+            goal_msg.pose.position.z = 0
 
-        goal_msg.pose.orientation.x = q_x
-        goal_msg.pose.orientation.y = q_y
-        goal_msg.pose.orientation.z = q_z
-        goal_msg.pose.orientation.w = q_w
+            goal_msg.pose.orientation.x = q_x
+            goal_msg.pose.orientation.y = q_y
+            goal_msg.pose.orientation.z = q_z
+            goal_msg.pose.orientation.w = q_w
+
+        elif (action == "dance"):
+            goal_msg.header.frame_id = "dance"
+
 
         #Debug print statements
-        # print("Action: {}".format(action))
-        # print("Goal Position: {}, {}, {}".format(x, y, 0))
-        # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
+        print("Action: {}".format(action))
+        print("Goal Position: {}, {}, {}".format(x, y, 0))
+        print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
+
 
         return goal_msg
+
+
+
+
 
