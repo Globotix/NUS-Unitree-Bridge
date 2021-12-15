@@ -118,9 +118,9 @@ class MQTTHandler():
 
         #2. Extract information from JSON
         action = msg_dict["action"]
-        x = msg_dict["pos_x"]
-        y = msg_dict["pos_y"]
-        theta = msg_dict["pos_theta"]
+        x = float(msg_dict["pos_x"])
+        y = float(msg_dict["pos_y"])
+        theta = float(msg_dict["pos_theta"])
 
         #Convert theta to quaternions
         [q_x, q_y, q_z, q_w] = self.euler_to_quaternion(theta, 0.0, 0.0)
