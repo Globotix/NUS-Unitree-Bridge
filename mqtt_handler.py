@@ -120,10 +120,10 @@ class MQTTHandler():
         action = msg_dict["action"]
         x = float(msg_dict["pos_x"])
         y = float(msg_dict["pos_y"])
-        theta = float(msg_dict["pos_theta"])
+        # theta = float(msg_dict["pos_theta"])
 
         #Convert theta to quaternions
-        [q_x, q_y, q_z, q_w] = self.euler_to_quaternion(theta, 0.0, 0.0)
+        # [q_x, q_y, q_z, q_w] = self.euler_to_quaternion(theta, 0.0, 0.0)
 
         #Create ROS Message
         goal_msg = geometry_msgs.msg.PoseStamped()
@@ -136,10 +136,10 @@ class MQTTHandler():
             goal_msg.pose.position.y = y
             goal_msg.pose.position.z = 0
 
-            goal_msg.pose.orientation.x = q_x
-            goal_msg.pose.orientation.y = q_y
-            goal_msg.pose.orientation.z = q_z
-            goal_msg.pose.orientation.w = q_w
+            # goal_msg.pose.orientation.x = q_x
+            # goal_msg.pose.orientation.y = q_y
+            # goal_msg.pose.orientation.z = q_z
+            # goal_msg.pose.orientation.w = q_w
 
         elif (action == "dance"):
             goal_msg.header.frame_id = "dance"
@@ -148,7 +148,7 @@ class MQTTHandler():
         #Debug print statements
         print("Action: {}".format(action))
         print("Goal Position: {}, {}, {}".format(x, y, 0))
-        print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
+        # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
 
 
         return goal_msg
