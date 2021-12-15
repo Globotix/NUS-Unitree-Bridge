@@ -80,9 +80,9 @@ def robotPositionCallback(data):
     
     #Create json message for sending to mqtt
     current_pose = {}
-    current_pose["x"] = str(x)
-    current_pose["y"] = str(y)
-    current_pose["theta"] = str(yaw)
+    current_pose["x"] = str(round(x, 2))
+    current_pose["y"] = str(round(y, 2))
+    current_pose["theta"] = str(round(yaw, 2))
 
     robot_state_msg_dict = {}
     robot_state_msg_dict["current_pose"] = current_pose
