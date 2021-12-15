@@ -81,22 +81,20 @@ def robotPositionCallback(data):
         data.pose.orientation.z,
         data.pose.orientation.w)
 
-
-
     #Convert quaternion to yaw (about z axis)
     # yaw = math.atan2(2.0 * (q_w * q_z + q_x * q_y), q_w**2 + q_x**2 - q_y**2 - q_z**2)
-
 
     euler = tf.transformations.euler_from_quaternion(quaternion)
     roll = euler[0]
     pitch = euler[1]
     yaw = euler[2]
     # print(f"R, P, Y: {roll}, {pitch}, {yaw}")
-    # rospy.loginfo_throttle(1.0, "Robot callback received! %f, %f, %f", x, y, yaw)
-    print(f"q_x, q_y, q_z, q_w: {q_x}, {q_y}, {q_z}, {q_w}")
-    print(f"R, P, Y: {roll}, {pitch}, {yaw}")
+    rospy.loginfo_throttle(1.0, "Position %f, %f, %f", x, y, yaw)
+    rospy.loginfo_throttle(1.0, "Quaternion %f, %f, %f, %f", q_x, q_y, q_z, q_w)
+    # print(f"q_x, q_y, q_z, q_w: {q_x}, {q_y}, {q_z}, {q_w}")
+    # print(f"R, P, Y: {roll}, {pitch}, {yaw}")
 
-    
+
     #Create json message for sending to mqtt
     current_pose = {}
     current_pose["x"] = str(round(x, 2))
