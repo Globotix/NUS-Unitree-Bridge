@@ -7,6 +7,7 @@ import threading
 import yaml #to parse yaml files
 
 import rospy
+import tf
 import geometry_msgs.msg, std_msgs.msg
 # import actionlib
 # from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
@@ -62,7 +63,7 @@ mqtt_handler.initROSInterface(goal_pub, empty_pub)
 
 def robotPositionCallback(data):
 
-    rospy.loginfo_throttle(1.0, "Robot callback received!")
+    # rospy.loginfo_throttle(1.0, "Robot callback received!")
 
     #Read from ROS msg
     frame_id = data.header.frame_id
@@ -76,7 +77,14 @@ def robotPositionCallback(data):
     q_w = data.pose.orientation.w
 
     #Convert quaternion to yaw (about z axis)
-    yaw = math.atan2(2.0 * (q_w * q_z + q_x * q_y), q_w**2 + q_x**2 - q_y**2 - q_z**2)
+    # yaw = math.atan2(2.0 * (q_w * q_z + q_x * q_y), q_w**2 + q_x**2 - q_y**2 - q_z**2)
+
+
+    euler = tf.transformations.euler_from_quaternion(data.pose.orientation)
+    roll = euler[0]
+    pitch = euler[1]
+    yaw = euler[2]
+    print(f"R, P, Y: {roll}, {pitch}, {yaw}")
     
     #Create json message for sending to mqtt
     current_pose = {}
