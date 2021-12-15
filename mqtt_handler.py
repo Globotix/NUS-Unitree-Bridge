@@ -139,7 +139,7 @@ class MQTTHandler():
             # goal_msg.pose.orientation.x = q_x
             # goal_msg.pose.orientation.y = q_y
             # goal_msg.pose.orientation.z = q_z
-            # goal_msg.pose.orientation.w = q_w
+            goal_msg.pose.orientation.w = 1.0
 
         elif (action == "dance"):
             goal_msg.header.frame_id = "dance"
