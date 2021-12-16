@@ -128,17 +128,16 @@ def main():
     thread1 = MQTTThread(1, "mqtt_thread")
     thread1.start()
 
-    ros_master_online = False
-
-    while not ros_master_online:
-        try:
-            if rosgraph.is_master_online():
-                print("ROS Master is online")
-                ros_master_online = True
-            else:
-                print("ROS Master is not up")
-        except KeyboardInterrupt:
-            sys.exit(0)
+    # ros_master_online = False
+    # while not ros_master_online:
+    #     try:
+    #         if rosgraph.is_master_online():
+    #             print("ROS Master is online")
+    #             ros_master_online = True
+    #         else:
+    #             print("ROS Master is not up")
+    #     except KeyboardInterrupt:
+    #         sys.exit(0)
 
     rospy.init_node('mqtt_to_unitree_bridge')
 
