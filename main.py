@@ -139,13 +139,10 @@ def main():
 
     rospy.init_node('mqtt_to_unitree_bridge')
 
-    #ROS publishers
-    #TODO: add action goal here
-    # https://hotblackrobotics.github.io/en/blog/2018/01/29/action-client-py/
-
     #ROS Subscribers
     rospy.Subscriber(ros_position_topic[0], geometry_msgs.msg.PoseStamped, robotPositionCallback)
     
+    # while (not rospy.is_shutdown()):
     rospy.spin()
 
 

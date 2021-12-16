@@ -24,6 +24,12 @@ pip install asyncio
 pip install pyinstaller
 ```
 
+# Quick Start (ROS)
+
+```
+roslaunch --wait unitree_to_nus_bridge unitree_to_nus_bridge.launch
+```
+
 # Quick Start
 
 
@@ -76,4 +82,6 @@ export ROS_HOSTNAME=192.168.8.149
 192.168.8.204 nx
 127.0.0.1 nx
 ```
+
+
 
