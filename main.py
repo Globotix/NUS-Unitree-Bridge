@@ -132,10 +132,10 @@ def main():
 
     while not ros_master_online:
         if rosgraph.is_master_online(): # Checks the master uri
-            rospy.loginfo("ROS Master is online")
+            print("ROS Master is online")
             ros_master_online = True
         else:
-            rospy.loginfo_throttle(1.0, "ROS Master is not up")
+            print(1.0, "ROS Master is not up")
 
     rospy.init_node('mqtt_to_unitree_bridge')
 
