@@ -51,7 +51,7 @@ def parseConfig(config_dir):
         ros_cancel_navigation_topic[0] = dataMap["ros_cancel_navigation_topic"]
         ros_position_topic[0] = dataMap["ros_position_topic"]
 
-parseConfig("./config.yaml")
+parseConfig(os.path.expanduser('~') + "catkin_ws/src/NUS-Unitree-Bridge/config.yaml")
 
 #ROS Publishers
 goal_pub = rospy.Publisher(ros_start_navigation_topic[0], geometry_msgs.msg.PoseStamped, queue_size=10)
