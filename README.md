@@ -29,7 +29,7 @@ pip install pyinstaller
 # Quick Start (ROS)
 
 ```
-roslaunch --wait unitree_to_nus_bridge unitree_to_nus_bridge.launch
+roslaunch unitree_nus_bridge unitree_nus_bridge.launch --wait
 ```
 
 # Quick Start
