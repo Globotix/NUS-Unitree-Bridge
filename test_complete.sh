@@ -12,7 +12,7 @@ tmux split-window -v -t 0.2 $TMUX_PANE
 tmux split-window -v -t 0.3 $TMUX_PANE
 
 #Launch main node
-tmux send-keys -t 0.0 "roscore" C-m
+# tmux send-keys -t 0.0 "roscore" C-m
 
 sleep 5
 
@@ -28,7 +28,7 @@ tmux send-keys -t 0.1 "mosquitto_sub -v -h 52.77.234.153 -p 30006 -t nus5gdt/rob
 tmux send-keys -t 0.2 "python3 main.py" C-m
 
 #ROS Test 1: Send robot position
-tmux send-keys -t 0.3 "rostopic pub /robot_position geometry_msgs/PoseStamped " 
+tmux send-keys -t 0.3 "rostopic echo /robot_position" 
 
 #ROS Test 2: Listen to navigation topics
 tmux send-keys -t 0.4 "rostopic echo /robot_goal" C-m

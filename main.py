@@ -88,7 +88,8 @@ def robotPositionCallback(data):
     roll = euler[0]
     pitch = euler[1]
     yaw = euler[2]
-    rospy.loginfo_throttle(1.0, "Position xy(%f, %f), rpy(%f, %f %f)", x, y, roll, pitch, yaw)
+    rospy.loginfo_throttle(1.0, "Position xy(%f, %f), rpy_rad(%f, %f %f)", x, y, roll, pitch, yaw)
+    rospy.loginfo_throttle(1.0, "rpy_deg(%f, %f %f)", roll*57.2958, pitch*57.2958, yaw*57.2958)
     rospy.loginfo_throttle(1.0, "Quaternion %f, %f, %f, %f", q_x, q_y, q_z, q_w)
 
     #Create json message for sending to mqtt
