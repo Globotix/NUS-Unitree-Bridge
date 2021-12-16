@@ -1,5 +1,7 @@
 # NUS Unitree Intermediary Node
 
+Repo URL: https://github.com/Globotix/NUS-Unitree-Bridge.git
+
 The objective of this node is to act as an intermediary layer between the Unitree API and NUS Digital Twin MQTT interface.
 This node should convert MQTT messages from the NUS Digital Twin model to ROS messages for the Unitree API and vice versa.
 

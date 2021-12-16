@@ -67,7 +67,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ${PROJECT_NAME}_lib
- CATKIN_DEPENDS roscpp rospy ddynamic_reconfigure actionlib_msgs std_msgs geometry_msgs
+ CATKIN_DEPENDS roscpp rospy 
 #  DEPENDS system_lib
 )
 
