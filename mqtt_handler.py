@@ -35,7 +35,6 @@ class MQTTHandler():
         #Subscribe to navigation topic and marker topic
         self.client.subscribe([(self.navigation_topic, 0)])
 
-
     def initROSInterface(self, goal_pub, empty_pub):
         self.goal_pub = goal_pub
         self.empty_pub = empty_pub
@@ -76,6 +75,9 @@ class MQTTHandler():
             print("MQTT: Navigation Command received!")
 
             msg_dict = json.loads(msg.payload)
+
+            if msg_dict["action"] == "dance":
+                print("MQTT: Start DANCING! >.<")
 
             if msg_dict["action"] == "start_movement":
                 print("MQTT: Start movement!")
@@ -152,8 +154,3 @@ class MQTTHandler():
 
 
         return goal_msg
-
-
-
-
-

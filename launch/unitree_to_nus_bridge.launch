@@ -1,0 +1,4 @@
+<launch>
+    <node pkg = "unitree_nus_bridge" type ="main.py" 
+        name = "unitree_nus_bridge" output = "screen" respawn="true"/>
+</launch>

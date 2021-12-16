@@ -6,7 +6,7 @@ import threading
 
 import yaml #to parse yaml files
 
-import rospy
+import rospy, rosgraph
 import tf
 import geometry_msgs.msg, std_msgs.msg
 # import actionlib
@@ -88,12 +88,8 @@ def robotPositionCallback(data):
     roll = euler[0]
     pitch = euler[1]
     yaw = euler[2]
-    # print(f"R, P, Y: {roll}, {pitch}, {yaw}")
     rospy.loginfo_throttle(1.0, "Position xy(%f, %f), rpy(%f, %f %f)", x, y, roll, pitch, yaw)
     rospy.loginfo_throttle(1.0, "Quaternion %f, %f, %f, %f", q_x, q_y, q_z, q_w)
-    # print(f"q_x, q_y, q_z, q_w: {q_x}, {q_y}, {q_z}, {q_w}")
-    # print(f"R, P, Y: {roll}, {pitch}, {yaw}")
-
 
     #Create json message for sending to mqtt
     current_pose = {}
@@ -131,6 +127,15 @@ class MQTTThread(threading.Thread):
 def main():
     thread1 = MQTTThread(1, "mqtt_thread")
     thread1.start()
+
+    ros_master_online = False
+
+    while not ros_master_online:
+        if rosgraph.is_master_online(): # Checks the master uri
+            rospy.loginfo("ROS Master is online")
+            ros_master_online = True
+        else:
+            rospy.loginfo_throttle(1.0, "ROS Master is not up")
 
     rospy.init_node('mqtt_to_unitree_bridge')
 
