@@ -134,7 +134,6 @@ class MQTTHandler():
 
         #Debug print statements
         print("Action: {}".format(action))
-        print("Goal Position: {}, {}, {}".format(x, y, 0))
         # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
 
 
