@@ -78,7 +78,7 @@ class MQTTHandler():
 
             if msg_dict["action"] == "dance":
                 print("MQTT: Start DANCING! >.<")
-                goal_msg = self.makeROSGoal(msg.payload)
+                goal_msg = self.makeROSDanceGoal(msg.payload)
                 self.goal_pub.publish(goal_msg)
 
             if msg_dict["action"] == "start_movement":
@@ -114,6 +114,31 @@ class MQTTHandler():
         qz = math.cos(roll/2) * math.cos(pitch/2) * math.sin(yaw/2) - math.sin(roll/2) * math.sin(pitch/2) * math.cos(yaw/2)
         qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
         return [qx, qy, qz, qw]
+
+    def makeROSDanceGoal(self, msg_raw_json):
+
+        #1. Convert from JSON bytes to dictionary
+        msg_dict = json.loads(msg_raw_json)
+
+        #2. Extract information from JSON
+        action = msg_dict["action"]
+        # theta = float(msg_dict["pos_theta"])
+
+        #Convert theta to quaternions
+        # [q_x, q_y, q_z, q_w] = self.euler_to_quaternion(theta, 0.0, 0.0)
+
+        #Create ROS Message
+        goal_msg = geometry_msgs.msg.PoseStamped()
+        goal_msg.header.frame_id = "dance"
+
+
+        #Debug print statements
+        print("Action: {}".format(action))
+        print("Goal Position: {}, {}, {}".format(x, y, 0))
+        # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
+
+
+        return goal_msg
 
     def makeROSGoal(self, msg_raw_json):
 
