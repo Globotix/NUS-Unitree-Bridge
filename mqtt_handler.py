@@ -78,6 +78,8 @@ class MQTTHandler():
 
             if msg_dict["action"] == "dance":
                 print("MQTT: Start DANCING! >.<")
+                goal_msg = self.makeROSGoal(msg.payload)
+                self.goal_pub.publish(goal_msg)
 
             if msg_dict["action"] == "start_movement":
                 print("MQTT: Start movement!")
