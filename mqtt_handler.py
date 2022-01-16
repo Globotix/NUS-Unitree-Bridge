@@ -67,36 +67,38 @@ class MQTTHandler():
         print("Disconnected from MQTT broker")
 
     def on_message(self, client, userdata, msg):
-        # print("received msg on topic("+msg.topic+") with msg: "+msg.payload)
-        print("Received message!")
+        print("received msg on topic("+msg.topic+")")
 
         if (msg.topic == self.navigation_topic):
             #Convert to ROS Message and publish to ROS
             print("MQTT: Navigation Command received!")
 
             msg_dict = json.loads(msg.payload)
+            try:
+                if msg_dict["action"] == "dance":
+                    print("MQTT: Start DANCING! >.<")
+                    goal_msg = self.makeROSDanceGoal(msg.payload)
+                    self.goal_pub.publish(goal_msg)
 
-            if msg_dict["action"] == "dance":
-                print("MQTT: Start DANCING! >.<")
-                goal_msg = self.makeROSDanceGoal(msg.payload)
-                self.goal_pub.publish(goal_msg)
+                if msg_dict["action"] == "start_movement":
+                    print("MQTT: Start movement!")
 
-            if msg_dict["action"] == "start_movement":
-                print("MQTT: Start movement!")
+                    goal_msg = self.makeROSGoal(msg.payload)
 
-                goal_msg = self.makeROSGoal(msg.payload)
+                    self.goal_pub.publish(goal_msg)
 
-                self.goal_pub.publish(goal_msg)
+                elif msg_dict["action"] == "cancel_movement":
+                    print("MQTT: Cancel movement!")
+                    empty_msg = std_msgs.msg.Empty()
 
-            elif msg_dict["action"] == "cancel_movement":
-                print("MQTT: Cancel movement!")
-                empty_msg = std_msgs.msg.Empty()
+                    self.empty_pub.publish(empty_msg)
 
-                self.empty_pub.publish(empty_msg)
-
-            else:
-                print("MQTT: INVALID NAVIGATION ACTION")
-
+                else:
+                    print("MQTT: INVALID NAVIGATION ACTION")
+            except KeyError:
+                print("KeyError: Action field is not in the JSON, check message formatting")
+        else:
+            print("Invalid topic, not processing")
 
     """
     Helper methods
@@ -131,11 +133,9 @@ class MQTTHandler():
         goal_msg = geometry_msgs.msg.PoseStamped()
         goal_msg.header.frame_id = "dance"
 
-
         #Debug print statements
         print("Action: {}".format(action))
         # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
-
 
         return goal_msg
 
