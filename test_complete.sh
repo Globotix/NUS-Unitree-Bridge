@@ -12,7 +12,7 @@ tmux split-window -v -t 0.2 $TMUX_PANE
 tmux split-window -v -t 0.3 $TMUX_PANE
 
 #Launch main node
-# tmux send-keys -t 0.0 "roscore" C-m
+tmux send-keys -t 0.0 "roscore" C-m
 
 sleep 5
 
@@ -23,6 +23,7 @@ tmux send-keys -t 0.1 "mosquitto_sub -v -h 52.77.234.153 -p 30006 -t nus5gdt/rob
 #MQTT TEST 2: MQTT publishing to check sending robot task
 # mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"start_movement\", \"pos_x\":1.0 , \"pos_y\":2.0 , \"pos_theta\":3.0 }"
 # mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"cancel_movement\"}"
+# mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"dance\"}"
 
 
 tmux send-keys -t 0.2 "python3 main.py" C-m
