@@ -35,9 +35,9 @@ class MQTTHandler():
         #Subscribe to navigation topic and marker topic
         self.client.subscribe([(self.navigation_topic, 0)])
 
-    def initROSInterface(self, goal_pub, empty_pub):
+    def initROSInterface(self, goal_pub, cancel_goal_pub):
         self.goal_pub = goal_pub
-        self.empty_pub = empty_pub
+        self.cancel_goal_pub = cancel_goal_pub
 
     def startLoop(self):
         print("STARTING LOOP")
@@ -75,26 +75,22 @@ class MQTTHandler():
 
             msg_dict = json.loads(msg.payload)
             try:
-                if msg_dict["action"] == "dance":
-                    print("MQTT: Start DANCING! >.<")
-                    goal_msg = self.makeROSDanceGoal(msg.payload)
-                    self.goal_pub.publish(goal_msg)
 
                 if msg_dict["action"] == "start_movement":
                     print("MQTT: Start movement!")
-
                     goal_msg = self.makeROSGoal(msg.payload)
-
                     self.goal_pub.publish(goal_msg)
 
                 elif msg_dict["action"] == "cancel_movement":
                     print("MQTT: Cancel movement!")
                     empty_msg = std_msgs.msg.Empty()
-
-                    self.empty_pub.publish(empty_msg)
-
+                    self.cancel_goal_pub.publish(empty_msg)
+                
                 else:
-                    print("MQTT: INVALID NAVIGATION ACTION")
+                    print("MQTT: Auxiliary Action")
+                    goal_msg = self.makeAuxiliaryActionGoal(msg.payload)
+                    self.goal_pub.publish(goal_msg)
+
             except KeyError:
                 print("KeyError: Action field is not in the JSON, check message formatting")
         else:
@@ -117,27 +113,23 @@ class MQTTHandler():
         qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
         return [qx, qy, qz, qw]
 
-    def makeROSDanceGoal(self, msg_raw_json):
 
+    def makeAuxiliaryActionGoal(self, msg_raw_json):
         #1. Convert from JSON bytes to dictionary
         msg_dict = json.loads(msg_raw_json)
 
         #2. Extract information from JSON
         action = msg_dict["action"]
-        # theta = float(msg_dict["pos_theta"])
-
-        #Convert theta to quaternions
-        # [q_x, q_y, q_z, q_w] = self.euler_to_quaternion(theta, 0.0, 0.0)
 
         #Create ROS Message
         goal_msg = geometry_msgs.msg.PoseStamped()
-        goal_msg.header.frame_id = "dance"
+        goal_msg.header.frame_id = str(action)
 
         #Debug print statements
         print("Action: {}".format(action))
-        # print("Goal Orientation: {}, {}, {}, {}".format(q_x, q_y, q_z, q_w))
 
         return goal_msg
+
 
     def makeROSGoal(self, msg_raw_json):
 

@@ -56,11 +56,11 @@ parseConfig(os.path.expanduser('~') + "/code_bank/NUS-Unitree-Bridge/config.yaml
 
 #ROS Publishers
 goal_pub = rospy.Publisher(ros_start_navigation_topic[0], geometry_msgs.msg.PoseStamped, queue_size=10)
-empty_pub = rospy.Publisher(ros_cancel_navigation_topic[0], std_msgs.msg.Empty, queue_size=10)
+cancel_goal_pub = rospy.Publisher(ros_cancel_navigation_topic[0], std_msgs.msg.Empty, queue_size=10)
 
 mqtt_handler = MQTTHandler()
 #add ros publishers to mqtt_handler
-mqtt_handler.initROSInterface(goal_pub, empty_pub)
+mqtt_handler.initROSInterface(goal_pub, cancel_goal_pub)
 
 def robotPositionCallback(data):
 
