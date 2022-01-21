@@ -24,7 +24,7 @@ tmux send-keys -t 0.1 "mosquitto_sub -v -h 52.77.234.153 -p 30006 -t nus5gdt/rob
 # mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"start_movement\", \"pos_x\":1.0 , \"pos_y\":2.0 , \"pos_theta\":3.0 }"
 # mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"cancel_movement\"}"
 # mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"dance\"}"
-
+# mosquitto_pub -h localhost -t "nus5gdt/robots/unitree/navigate" -u guest -P guest -m "{\"action\":\"pray\"}"
 
 tmux send-keys -t 0.2 "python3 main.py" C-m
 
