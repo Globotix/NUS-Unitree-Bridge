@@ -146,8 +146,8 @@ def main():
     #ROS Subscribers
     rospy.Subscriber(ros_position_topic[0], geometry_msgs.msg.PoseStamped, robotPositionCallback)
     
-    # while (not rospy.is_shutdown()):
-    rospy.spin()
+    while (not rospy.is_shutdown()):
+        rospy.spin()
 
 
 def keyboard_interrupt_handler(signal, frame):
